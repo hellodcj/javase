@@ -1,3 +1,6 @@
 com.dcj.thread =======
 Test2.java 多线程共享资源
 Test3.java 多线程共享资源
+Test4.java 张孝祥炸弹定时器   练习了timer类的使用，定时触发一个事件
+
+com.dcj.spring.observer  包    spring实现的观察者模式

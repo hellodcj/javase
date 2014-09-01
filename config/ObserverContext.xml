@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+"http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+ <!-- This bean is the town crier.  
+ He's responsible for notifying all town residents that are interested in his message -->
+ <bean id="townCrier" class="com.dcj.spring.observer.TownCrier"/>
+ 
+ <!-- this bean is a town resident interested in the town criers messages -->
+ <bean id="townResident1" class="com.dcj.spring.observer.TownResident"/>          
+       
+ <!-- this bean is another town resident interested in the town criers messages -->
+ <bean id="townResident2" class="com.dcj.spring.observer.TownResident2"/>
+    
+    
+     <!-- this is a method invoking bean that registers the first town resident with
+          with the town crier -->   
+    <bean id="registerTownResident1" 
+      class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+      <property name="targetObject"><ref local="townCrier"/></property>
+      <property name="targetMethod"><value>addListener</value></property>
+      <property name="arguments">
+      <list>
+        <ref bean="townResident1"/>
+      </list>
+      </property>
+    </bean>
+    
+    
+     <!-- this is a method invoking bean that registers the second town 
+          resident with the town crier -->   
+    <bean id="registerTownResident2" 
+      class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+      <property name="targetObject"><ref local="townCrier"/></property>
+      <property name="targetMethod"><value>addListener</value></property>
+      <property name="arguments">
+      <list>
+        <ref bean="townResident2"/>
+      </list>
+      </property>
+    </bean>         
+ 
+ </beans>
