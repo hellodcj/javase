@@ -5,7 +5,7 @@ Test4.java 张孝祥炸弹定时器   练习了timer类的使用，定时触发�
 
 com.dcj.spring.observer  包    spring实现的观察者模式
 
-com.dcj.io =========
+com.dcj.core.io =========
 Directory.java 文件夹的操作
 
 

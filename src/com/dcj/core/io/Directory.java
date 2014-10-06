@@ -1,4 +1,4 @@
-package com.dcj.io;
+package com.dcj.core.io;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.dcj.decorator;
+package com.dcj.DesignPattern.decorator;
 
 import org.junit.Test;
 
