@@ -1,4 +1,4 @@
-package com.dcj.thread;
+package com.dcj.core.thread;
 
 import java.util.ArrayList;
 import java.util.List;

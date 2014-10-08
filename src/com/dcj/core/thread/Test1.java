@@ -1,4 +1,4 @@
-package com.dcj.thread;
+package com.dcj.core.thread;
 
 import org.junit.Test;
 
