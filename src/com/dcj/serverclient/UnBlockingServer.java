@@ -2,14 +2,17 @@ package com.dcj.serverclient;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.channels.ClosedChannelException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
+import org.apache.commons.lang3.CharSet;
 
 /**
  * 非阻塞服务器
@@ -21,6 +24,7 @@ public class UnBlockingServer {
 	private ServerSocketChannel serverSocketChannel = null;
 	private Selector selector = null;
 	private static final int POOL_SIZE=5;
+	private Charset charSet = Charset.forName("GBK");
 	
 	public UnBlockingServer() throws IOException {
 		//1.创建Selector对象
@@ -50,7 +54,27 @@ public class UnBlockingServer {
 					
 				}
 				if(selectionKey.isWritable()){
+					ByteBuffer bf = (ByteBuffer) selectionKey.attachment();
+					SocketChannel sc = (SocketChannel) selectionKey.channel();
+					bf.flip();  //将position位置设置为0
+					CharBuffer cb = charSet.decode(bf);
+					String data = cb.toString();
+					if (data.indexOf("\r\n")==-1) return;
+					String outputData = data.substring(0,data.indexOf("\n")+1);
+					ByteBuffer outputBuffer = charSet.encode("echo"+outputData);
+					while(outputBuffer.hasRemaining()){
+						sc.write(outputBuffer);
+					}
 					
+					ByteBuffer temp = charSet.encode(outputData);
+					bf.position(temp.limit());
+					bf.compact(); //删除已经处理的字符串
+					
+					if (outputData.equals("bye\r\n")){
+						selectionKey.cancel();
+						sc.close();
+						System.out.println("关闭与客户端的连接");
+					}
 				}
 			}
 		}
